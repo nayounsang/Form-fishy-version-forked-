@@ -1,15 +1,17 @@
 import React from "react";
+import { Info } from "../App";
 
 const CheckboxField: React.FC<{
-  value: boolean;
-  setValue: (v: boolean) => void;
+  value: Info;
+  setValue: (info:Info) => void;
   label: string;
-}> = ({ label, value, setValue }) => {
+  source: keyof Info;
+}> = ({ label, value, setValue,source }) => {
   return (
     <>
       {label}
       <input
-        onChange={(e) => setValue(e.target.checked)}
+        onChange={(e) => setValue({...value,[source]:e.target.checked})}
         value={value.toString()}
         type={"checkbox"}
       />

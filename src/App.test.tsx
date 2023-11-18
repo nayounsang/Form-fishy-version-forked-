@@ -2,15 +2,19 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
 import "@testing-library/jest-dom/extend-expect";
 
-describe("App", () => {
-  test("Label과 Input 그리고 버튼이 제대로 렌더링 되어야 함", () => {
-    // arrange
+const renderApp = () => {
     render(<App />);
-
     const nameLabel = screen.getByText(/이름/i);
     const nameInput = screen.getByRole("textbox");
     const checkbox = screen.getByRole("checkbox");
     const button = screen.getByRole("button");
+    return {nameLabel,nameInput,checkbox,button};
+}
+
+describe("App", () => {
+  test("Label과 Input 그리고 버튼이 제대로 렌더링 되어야 함", () => {
+    // arrange
+    const {nameLabel,nameInput,checkbox,button} = renderApp();
 
     // assert
     expect(nameLabel).toBeInTheDocument();
@@ -23,11 +27,7 @@ describe("App", () => {
     // arrange
     const alertMock = jest.fn();
     window.alert = alertMock;
-    render(<App />);
-
-    const nameInput = screen.getByRole("textbox");
-    const checkbox = screen.getByRole("checkbox");
-    const button = screen.getByRole("button");
+    const {nameInput,checkbox,button} = renderApp();
 
     // act
     fireEvent.change(nameInput, { target: { value: "junsuk" } });
@@ -42,10 +42,7 @@ describe("App", () => {
     // arrange
     const alertMock = jest.fn();
     window.alert = alertMock;
-    render(<App />);
-
-    const nameInput = screen.getByRole("textbox");
-    const button = screen.getByRole("button");
+    const {nameInput,button} = renderApp();
 
     // act
     fireEvent.change(nameInput, { target: { value: "junsuk" } });
